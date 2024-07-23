@@ -8,7 +8,7 @@ const wait = async () => new Promise(res => setTimeout(res, 3600));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const pptFilePath = path.join(__dirname, 'assets', 'samplepptx.pptx');
+const pptFilePath = path.join(__dirname, 'assets', 'How to use PMS_ (1).pptx');
 
 const fileName = pptFilePath.split('/').pop();
 console.log("🚀 ~ pptFilePath:", pptFilePath);
@@ -20,15 +20,19 @@ if (!fs.existsSync(outputFolderPath)) {
 const converter = Converter.create({
     files: [pptFilePath],
     output: outputFolderPath,
-    deletePdfFile: true
-
+    options: {
+        outputType: 'jpg',
+        deletePdfFile: true,
+        density: 250,
+        quality: 100,
+    }
 });
 const result =converter.convert();
 console.log("🚀 ~ result:", result)
 
 console.log("======= UPLOAD FILES TO S3 =======");
 await wait();
-fs.rmSync(outputFolderPath, { recursive: true, force: true });
+// fs.rmSync(outputFolderPath, { recursive: true, force: true });
 
 
 
